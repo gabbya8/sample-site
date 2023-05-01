@@ -2,7 +2,7 @@ import './Button.css';
 
 function Button() {
     return(
-        <button>
+        <button class="button-27">
             <div className='text'>
                 Start
             </div>
