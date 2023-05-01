@@ -1,10 +1,15 @@
 import './Button.css';
 
-function Button() {
+
+function eventHandler(){
+    console.log("button clicked");
+}
+
+function Button(props) {
     return(
-        <button class="button-27">
+        <button className="button-27" onClick={eventHandler}>
             <div className='text'>
-                Start
+                {props.text}
             </div>
         </button>
     );
