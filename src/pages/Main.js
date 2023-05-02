@@ -1,5 +1,5 @@
-import'./Main.css';
-import Button from './Button';
+import'./css/Main.css';
+import Button from '../components/Button';
 
 function Main() {
     return(

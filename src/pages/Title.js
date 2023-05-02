@@ -1,5 +1,5 @@
-import './Title.css';
-import Button from './Button';
+import './css/Title.css';
+import Button from '../components/Button';
 function Title() {
     return(
         <div className="Title">
