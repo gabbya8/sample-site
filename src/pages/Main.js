@@ -1,9 +1,12 @@
 import'./css/Main.css';
-import Button from '../components/Button';
+import SearchBar from '../components/SearchBar';
+
 
 function Main() {
     return(
-        <p>hi</p>
+        <div className='Main'>
+            <SearchBar></SearchBar>
+        </div>
     );
 }
 
