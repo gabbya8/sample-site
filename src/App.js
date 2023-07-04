@@ -3,6 +3,7 @@ import Title from './pages/Title';
 import Main from './pages/Main';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NoPage from './pages/NoPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
 
