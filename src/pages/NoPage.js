@@ -1,7 +1,6 @@
-import'./css/Main.css';
 
 function NoPage() {
-    return(
+    return (
         <h2>Error 404: Not found</h2>
     );
 }

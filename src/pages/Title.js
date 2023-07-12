@@ -1,7 +1,6 @@
 import './css/Title.css';
 import queryString from 'query-string';
 import { useNavigate } from 'react-router-dom';
-import Main from './Main';
 
 var client_id = '4b558a0f256441e8a8f8e7f9392e5726';
 const auth_str = "https://accounts.spotify.com/authorize?";
@@ -17,7 +16,7 @@ let AUTH_URL = auth_str + queryString.stringify({
 
 function Title() {
     const nav = useNavigate()
-    return(
+    return (
         <div className="Title">
             <header className='Title-header'>
                 <div className='site-name'>

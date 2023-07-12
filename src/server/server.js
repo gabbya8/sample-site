@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000/main",
+    redirectUri: "http://localhost:3000/search",
     clientId: "4b558a0f256441e8a8f8e7f9392e5726",
     clientSecret: "33c499ad6bb54915932ebb2ba8b81548",
   });
@@ -37,7 +37,7 @@ app.post("/login", (req, res) => {
   const code = req.body.code;
   // console.log(req.body);
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000/main",
+    redirectUri: "http://localhost:3000/search",
     clientId: "4b558a0f256441e8a8f8e7f9392e5726",
     clientSecret: "33c499ad6bb54915932ebb2ba8b81548",
   });
