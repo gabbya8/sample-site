@@ -16,10 +16,11 @@ function Search({ code }) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [playingTrack, setPlayingTrack] = useState()
-    console.log(searchResults)
+    // console.log(searchResults)
 
     function chooseTrack(track) {
         setPlayingTrack(track)
+        // setSearch("")
         //move to Player page
 
     }
@@ -45,7 +46,8 @@ function Search({ code }) {
                     uri: track.uri,
                     album: track.album.images[0].url,
                     albumName: track.album.name,
-                    year: track.album.release_date.substring(0, 4)
+                    year: track.album.release_date.substring(0, 4),
+                    trackLength: track.duration_ms
                 }
             }))
         })
@@ -56,12 +58,14 @@ function Search({ code }) {
             <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={e => setSearch(e.target.value)} />
             <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
                 {/* only display songs when user starts typing */}
-                <h4>Songs</h4>
                 {searchResults.map(track => (
                     <TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
                 ))}
             </div>
-            <div><Player accessToken={accessToken} trackUri={playingTrack?.uri} /></div>
+            {searchResults.length == 0? <h1>Nothing yet...</h1> : 
+            <div>
+                <Player accessToken={accessToken} trackUri={playingTrack?.uri} trackImg={playingTrack?.album} trackTitle={playingTrack?.title} trackArtist={playingTrack?.artist} trackDate={playingTrack?.year} />
+            </div> }
         </Container>
 
     );
