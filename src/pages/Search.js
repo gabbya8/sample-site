@@ -16,13 +16,23 @@ function Search({ code }) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [playingTrack, setPlayingTrack] = useState()
-    // console.log(searchResults)
+    const [state, setState] = useState({mode: 'compact', img: true})
+
+    function updatePlayer() {
+        console.log("mode: ", state.mode)
+        setState(prevState => {
+            console.log(prevState)
+            if (prevState.mode === 'compact') 
+                return {mode: 'responsive', img: false}
+            else if (prevState.mode === 'responsive')
+            return {mode: 'compact', img: true}
+        })
+    }
 
     function chooseTrack(track) {
         setPlayingTrack(track)
-        // setSearch("")
-        //move to Player page
-
+        setSearch("")
+        updatePlayer()
     }
 
     useEffect(() => {
@@ -30,6 +40,7 @@ function Search({ code }) {
         spotifyApi.setAccessToken(accessToken)
     }, [accessToken])
 
+    
     useEffect(() => {
         if (!search) return setSearchResults([])
         if (!accessToken) return
@@ -53,19 +64,25 @@ function Search({ code }) {
         })
         return () => cancel = true
     }, [search, accessToken])
+
+
+    console.log("results: ", searchResults.length);
+    console.log("playing track: ", playingTrack);
     return (
         <Container className='d-flex flex-column py-2'>
             <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={e => setSearch(e.target.value)} />
             <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-                {/* only display songs when user starts typing */}
                 {searchResults.map(track => (
                     <TrackSearchResult track={track} key={track.uri} chooseTrack={chooseTrack} />
                 ))}
             </div>
-            {searchResults.length == 0? <h1>Nothing yet...</h1> : 
+            {playingTrack &&
             <div>
-                <Player accessToken={accessToken} trackUri={playingTrack?.uri} trackImg={playingTrack?.album} trackTitle={playingTrack?.title} trackArtist={playingTrack?.artist} trackDate={playingTrack?.year} />
-            </div> }
+                <Player accessToken={accessToken} trackUri={playingTrack?.uri} trackImg={playingTrack?.album} mode={state.mode} hideImg={state.img}/>
+                <button onClick={updatePlayer}>See Sample</button>
+                
+            </div>}
+            {/* {playingTrack && searchResults.length > 0 && updatePlayer()} */}
         </Container>
 
     );

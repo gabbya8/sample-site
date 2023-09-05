@@ -1,11 +1,10 @@
 import './css/Title.css';
 import queryString from 'query-string';
-import { useNavigate } from 'react-router-dom';
 
 var client_id = '4b558a0f256441e8a8f8e7f9392e5726';
 const auth_str = "https://accounts.spotify.com/authorize?";
 var redirect_uri = 'http://localhost:3000/search';
-var scope = 'streaming user-read-private user-read-email user-read-playback-state user-modify-playback-state';
+var scope = 'streaming user-read-private user-read-email user-read-playback-state user-modify-playback-state user-read-currently-playing';
 
 let AUTH_URL = auth_str + queryString.stringify({
     response_type: 'code',
@@ -14,8 +13,9 @@ let AUTH_URL = auth_str + queryString.stringify({
     redirect_uri: redirect_uri
 })
 
+console.log(AUTH_URL);
+
 function Title() {
-    const nav = useNavigate()
     return (
         <div className="Title">
             <header className='Title-header'>

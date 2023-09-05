@@ -3,8 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Player from './Player';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// const script = document.createElement("script");
+// script.src = "https://sdk.scdn.co/spotify-player.js";
+// console.log(script);
+
 root.render( 
   <React.StrictMode>
     <App />
