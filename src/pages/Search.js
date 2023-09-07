@@ -16,23 +16,23 @@ function Search({ code }) {
     const [search, setSearch] = useState("")
     const [searchResults, setSearchResults] = useState([])
     const [playingTrack, setPlayingTrack] = useState()
-    const [state, setState] = useState({mode: 'compact', img: true})
+    const [state, setState] = useState({mode: 'responsive', img: false})
+    const [trackChosen, setTrackChosen] = useState(false)
+
+
+    function chooseTrack(track) {
+        // console.log("choose track")
+        setSearch("")
+        setPlayingTrack(track)
+        setTrackChosen(true)
+    }
 
     function updatePlayer() {
         console.log("mode: ", state.mode)
-        setState(prevState => {
-            console.log(prevState)
-            if (prevState.mode === 'compact') 
-                return {mode: 'responsive', img: false}
-            else if (prevState.mode === 'responsive')
-            return {mode: 'compact', img: true}
-        })
-    }
-
-    function chooseTrack(track) {
-        setPlayingTrack(track)
-        setSearch("")
-        updatePlayer()
+        if (state.mode === 'compact')
+            setState({mode: 'responsive', img: false})
+        else
+            setState({mode: 'compact', img: true})
     }
 
     useEffect(() => {
@@ -45,9 +45,13 @@ function Search({ code }) {
         if (!search) return setSearchResults([])
         if (!accessToken) return
         let cancel = false
+        // console.log("setting to false")
         spotifyApi.searchTracks(search).then(res => {
             console.log(search)
-            console.log(res.body.tracks.items)
+            // console.log(res.body.tracks.items)
+            if (searchResults.length > 0) {
+                setTrackChosen(false)
+            }
             if (cancel) return
             setSearchResults(res.body.tracks.items.map(track => {
                 return {
@@ -65,9 +69,20 @@ function Search({ code }) {
         return () => cancel = true
     }, [search, accessToken])
 
+    //write logic to only execute this when search is complete, currently toggling for every letter in search
+    useEffect(() =>{
+        // console.log("calling player use effect!")
+        // console.log("results: ", searchResults.length)
+        // console.log(trackChosen)
+        //when song is chosen, goes up to here
+        if (trackChosen && playingTrack && searchResults.length > 0) {
+            updatePlayer()
+        }
+    },[playingTrack, searchResults, trackChosen])
 
-    console.log("results: ", searchResults.length);
-    console.log("playing track: ", playingTrack);
+
+    
+    // console.log("playing track: ", playingTrack);
     return (
         <Container className='d-flex flex-column py-2'>
             <Form.Control type="search" placeholder="Search Songs/Artists" value={search} onChange={e => setSearch(e.target.value)} />
@@ -79,10 +94,10 @@ function Search({ code }) {
             {playingTrack &&
             <div>
                 <Player accessToken={accessToken} trackUri={playingTrack?.uri} trackImg={playingTrack?.album} mode={state.mode} hideImg={state.img}/>
-                <button onClick={updatePlayer}>See Sample</button>
+                {/* <button onClick={updatePlayer}>See Sample</button> */}
                 
-            </div>}
-            {/* {playingTrack && searchResults.length > 0 && updatePlayer()} */}
+            </div>
+            }
         </Container>
 
     );
